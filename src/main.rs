@@ -1,7 +1,11 @@
-use guessing_game::guess_ascii;
 
-mod guessing_game;
+
+mod mod_test;
+
+use mod_test::hello_world;
+use mod_test::hello_rust;
 
 fn main() {
-    guess_ascii();
+    hello_world::hello_world();
+    hello_rust::hello_rust();
 }

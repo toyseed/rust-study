@@ -10,7 +10,12 @@ use rand::Rng;
 터미널로 한 문자를 사용자로부터 입력 받아서 기억한 값보다 크면 `high` 작으면 `low`라고 찍어주고
 만약 문자를 맟추면 'Good job' 이라고 찍고 프로그램을 종료하는 기능을 작성해 보세요.
 **/
-pub fn guess_ascii() {
+
+fn main() {
+    guess_ascii();
+}
+
+fn guess_ascii() {
     let secret = rand::thread_rng().sample(&Alphanumeric);
     println!("secret: {}, {}", secret, secret as u8);
 
