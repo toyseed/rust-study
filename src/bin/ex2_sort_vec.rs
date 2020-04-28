@@ -21,26 +21,26 @@ impl InputTypes {
             return None;
         }
 
-        let mut hasText = false;
-        let mut hasNum = false;
+        let mut has_text = false;
+        let mut has_num = false;
         let mut dot_count= 0;
 
         for c in str.chars() {
             if c == '.' {
                 dot_count += 1;
             } else if !c.is_numeric() {
-                hasText = true;
+                has_text = true;
                 break;
             } else {
-                hasNum = true;
+                has_num = true;
             }
         }
 
-        if hasNum && !hasText && dot_count == 0 {
+        if has_num && !has_text && dot_count == 0 {
             Some(InputTypes::Integer(
                 str.parse::<i32>().expect("parse fail to i32"),
             ))
-        } else if hasNum && !hasText && dot_count == 1 {
+        } else if has_num && !has_text && dot_count == 1 {
             Some(InputTypes::Float(
                 str.parse::<f64>().expect("parse fail to f64"),
             ))

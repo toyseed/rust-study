@@ -1,7 +1,5 @@
 #[cfg(test)]
 mod tests {
-    use std::ops::Add;
-
     enum IpAddrKind {
         V4,
         V6,

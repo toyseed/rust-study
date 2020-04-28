@@ -9,40 +9,40 @@ fn test_string() {
 #[test]
 fn test_string_slice() {
     let src= "src string";
-    let mut nSrc = String::from(src);
+    let mut n_src = String::from(src);
 
-    nSrc.push_str(" new string");
+    n_src.push_str(" new string");
 
-    println!("{}", nSrc);
+    println!("{}", n_src);
 
 }
 
 #[test]
 fn test_string_length() {
-    let sayHi = "안녕?";
+    let say_hi = "안녕?";
 
-    println!("length of sayHi: {}", sayHi.len());
-    println!("length of chars of sayHi: {:?}", sayHi.chars());
+    println!("length of say_hi: {}", say_hi.len());
+    println!("length of chars of say_hi: {:?}", say_hi.chars());
 
-    let h = &sayHi[0..3];
+    let h = &say_hi[0..3];
     println!("slice first: {}", h);
 
 }
 
 #[test]
 fn test_type_check() {
-    let intStr = String::from("123");
-    let floatStr = String::from("10.23");
-    let testStr = String::from("abck23kj3.223");
+    let int_str = String::from("123");
+    let float_str = String::from("10.23");
+    let _test_str = String::from("abck23kj3.223");
 
-    let intToInt = intStr.trim().parse::<i32>().unwrap();
-    let intToFlat = intStr.trim().parse::<f64>().unwrap();
+    let int_to_int = int_str.trim().parse::<i32>().unwrap();
+    let int_to_flat = int_str.trim().parse::<f64>().unwrap();
 
-    println!("intToInt {}", intToInt);
-    println!("intToFloat {}", intToFlat);
+    println!("int_to_int {}", int_to_int);
+    println!("intToFloat {}", int_to_flat);
 
-    // let floatToInt = floatStr.trim().parse::<i32>().unwrap();    // err
-    let floatToFloat = floatStr.trim().parse::<f64>().unwrap();
-    println!("floatToFloat {}", floatToFloat);
+    // let floatToInt = float_str.trim().parse::<i32>().unwrap();    // err
+    let float_to_float = float_str.trim().parse::<f64>().unwrap();
+    println!("float_to_float {}", float_to_float);
 
 }
