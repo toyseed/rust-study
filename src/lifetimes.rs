@@ -13,9 +13,13 @@ fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
         y
     }
 }
-// fn print_longest(x: &str, y: &str) {
-//     println!("{}", x);
-// }
+fn longest_2<'a>(x: &'a str, y: &str) -> &'a str {
+    x
+}
+
+fn print_longest(x: &str, y: &str) {
+    println!("{}", x);
+}
 
 #[test]
 fn test() {
@@ -36,10 +40,12 @@ fn test() {
         let y = String::from("hi");
         result = longest(&x, &y);
         // result2 = longest(&y, &x);
-        // print_longest(&x, &y);
+        print_longest(&x, &y);
+
+        let result_2 = longest_2(&x, &y);
     }
 
-        println!("{}", result);
+        // println!("{}", result);
     // println!("{}", result2);
 }
 
