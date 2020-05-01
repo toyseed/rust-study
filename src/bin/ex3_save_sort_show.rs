@@ -8,8 +8,8 @@ AStruct, BStruct모두 ShowValue를 구현하세요,
 show_value는 구조체의 value필드를 String에 찍어주는 기능으로 하세요.
 */
 
-use std::fmt::{Display, Formatter};
 use std::fmt;
+use std::fmt::{Display, Formatter};
 
 trait ShowValue {
     fn show_value(&self) -> String;
@@ -36,9 +36,9 @@ impl Data {
 impl Display for Data {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
-            Data::Integer(i) => { write!(f, "{}", i) },
-            Data::Float(n) => { write!(f, "{}", n) },
-            Data::String(s) => { write!(f, "{}", s) },
+            Data::Integer(i) => write!(f, "Integer({})", i),
+            Data::Float(n) => write!(f, "Float({})", n),
+            Data::String(s) => write!(f, "String({})", s),
         }
     }
 }
@@ -73,15 +73,38 @@ impl ShowValue for BStruct {
     }
 }
 
-fn main() {
-    let inputs = vec![("z", "abcd"), ("a", "10"), ("g", "29.5"), ("e", "qwer")];
+fn fetch_input() -> Option<(String, String)> {
+    let mut input = String::new();
+    match std::io::stdin().read_line(&mut input) {
+        Ok(_) => {
+            if &input == "\n" {
+                return None;
+            }
 
+            let split: Vec<&str> = input.trim().split_whitespace().collect();
+
+            if split.len() != 2 {
+                return None;
+            }
+
+            Some((split[0].to_string(), split[1].to_string()))
+        }
+        Err(_) => None,
+    }
+}
+
+fn main() {
     let mut keys: Vec<String> = Vec::new();
     let mut values: Vec<Value<Data>> = Vec::new();
 
-    for (key, value) in inputs {
-        keys.push(String::from(key));
-        values.push(Value(Data::from(value)));
+    loop {
+        match fetch_input() {
+            Some((key, value)) => {
+                keys.push(key);
+                values.push(Value(Data::from(&value)));
+            }
+            None => break,
+        }
     }
 
     let mut datas: Vec<AStruct<Data>> = Vec::new();
