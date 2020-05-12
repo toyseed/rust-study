@@ -10,9 +10,9 @@
 이 때 메모리 누수가 되지 않게 주의하세요.
  */
 
-use std::rc::Rc;
-use crate::NodeVariant::{Node, Nil};
+use crate::NodeVariant::{Nil, Node};
 use std::cell::RefCell;
+use std::rc::Rc;
 
 struct DoubleLinkedNode {
     value: RefCell<String>,
@@ -35,6 +35,12 @@ impl DoubleLinkedNode {
 
     fn set_next(&self, node: Rc<NodeVariant>) {
         *self.next.borrow_mut() = Rc::clone(&node);
+    }
+}
+
+impl Drop for DoubleLinkedNode {
+    fn drop(&mut self) {
+        println!("drop {}", self.value.borrow().as_str());
     }
 }
 
@@ -77,17 +83,17 @@ impl DoubleLinkedList {
                         current_node.set_next(Rc::clone(&new_node_ref));
                         None
                     }
-                },
-                Nil => {
-                    None
                 }
+                Nil => None,
             };
 
             match maybe_next_variant {
                 Some(next_variant) => {
                     current_variant = next_variant;
                 }
-                None => { break; }
+                None => {
+                    break;
+                }
             }
         }
     }
@@ -116,17 +122,17 @@ impl DoubleLinkedList {
 
                         None
                     }
-                },
-                Nil => {
-                    None
                 }
+                Nil => None,
             };
 
             match maybe_next_variant {
                 Some(next_variant) => {
                     current_variant = next_variant;
-                },
-                None => { break; }
+                }
+                None => {
+                    break;
+                }
             }
         }
     }
@@ -142,17 +148,17 @@ impl DoubleLinkedList {
                     }
 
                     Some(Rc::clone(&current_node.next.borrow()))
-                },
-                Nil => {
-                    None
                 }
+                Nil => None,
             };
 
             match maybe_next_variant {
                 Some(next_variant) => {
                     current_variant = next_variant;
-                },
-                None => { break; }
+                }
+                None => {
+                    break;
+                }
             }
         }
     }
@@ -165,19 +171,24 @@ impl DoubleLinkedList {
             let maybe_next_variant = match current_variant.as_ref() {
                 Node(current_node) => {
                     index = index + 1;
-                    print!("{}) {} ", index, current_node.value.borrow().as_str());
+                    print!(
+                        "{}> {} ({}) ",
+                        index,
+                        current_node.value.borrow().as_str(),
+                        Rc::strong_count(&current_variant)
+                    );
                     Some(Rc::clone(&current_node.next.borrow()))
-                },
-                Nil => {
-                    None
                 }
+                Nil => None,
             };
 
             match maybe_next_variant {
                 Some(next_variant) => {
                     current_variant = next_variant;
                 }
-                None => { break; }
+                None => {
+                    break;
+                }
             }
         }
 
@@ -210,4 +221,3 @@ fn main() {
     println!("after modifying 'z' to '!'");
     list.print();
 }
-

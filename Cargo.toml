@@ -12,3 +12,4 @@ opt-level = 0
 
 [dependencies]
 rand="0.5.5"
+slab = "0.4.2"
