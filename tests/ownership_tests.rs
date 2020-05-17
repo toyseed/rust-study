@@ -33,9 +33,26 @@ struct Person {
     name: &'static str,
 }
 
+fn give_me_a_person(p: Person){
+    println!("got a person");
+}
+
+fn give_me_a_person_in_the_box(p: &Box<Person>) {
+    println!("got a person in the box");
+    // let person = *p;
+}
+
 #[test]
 fn test_static() {
     let p1 = Person { name: "hello rust" };
+    let p1_1 = p1;
 
-    // let p2 = Person { name: &String::from("hello heap") };
+    let p1 = Person { name: "hello rust" };
+    // let p1_1 = *&p1;
+
+    give_me_a_person(p1);
+
+    let p2 = Box::new(Person { name: "hello rust" });
+    // let p2_2 = p2;
+    // let p2_1 = *&p2;
 }
