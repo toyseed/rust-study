@@ -1,5 +1,3 @@
-
-
 mod mod_test;
 
 use mod_test::hello_world;

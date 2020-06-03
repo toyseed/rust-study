@@ -16,3 +16,24 @@ fn test_hashma_key() {
         println!("{} : {}", key, value);
     }
 }
+
+#[test]
+fn test_update_old_value() {
+    let text = "hello world wonderful world";
+    let mut map = HashMap::new();
+
+    for word in text.split_whitespace() {
+        let mut count = map.entry(word).or_insert(0);
+        *count += 1;
+    }
+
+    println!("{:?}", map);
+
+    for (_, (key, value)) in map.iter().enumerate() {
+        println!("key: {}, value: {}", key, value);
+    }
+
+    for (key, value) in map.iter() {
+        println!("key: {}, value: {}", key, value);
+    }
+}

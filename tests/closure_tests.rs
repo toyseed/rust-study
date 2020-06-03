@@ -15,13 +15,15 @@ fn test_closure() {
     for_each_planet(|planet| println!("{}, {}", greeting, planet));
 }
 
-fn for_each_planet_with_static<F>(f: F)
+fn for_each_planet_with_static<F>(f: F) -> Box<dyn Fn(&str)>
 where
     F: Fn(&'static str) + 'static, // need function has static lifetime
 {
     f("Earth");
     f("Mars");
     f("Jupiter");
+
+    Box::new(|s: &str| println!("closure"))
 }
 
 #[test]

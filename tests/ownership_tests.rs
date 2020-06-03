@@ -27,13 +27,12 @@ fn test_owner() {
     println!("{:?}", type_name::<i32>());
 }
 
-
 #[derive(Debug)]
 struct Person {
     name: &'static str,
 }
 
-fn give_me_a_person(p: Person){
+fn give_me_a_person(p: Person) {
     println!("got a person");
 }
 
@@ -55,4 +54,58 @@ fn test_static() {
     let p2 = Box::new(Person { name: "hello rust" });
     // let p2_2 = p2;
     // let p2_1 = *&p2;
+}
+
+struct Data {
+    value: i32,
+}
+
+impl Data {
+    fn take_ownership(mut self) {
+        println!("execute Data::take_ownership");
+    }
+}
+
+struct DataOwner {
+    data: Data,
+}
+
+impl DataOwner {
+    fn borrow_self(&self) {
+        println!("DataOwner::borrow_self executed");
+    }
+}
+
+struct OptionDataOwner {
+    data: Option<Data>,
+}
+
+impl OptionDataOwner {
+    fn borrow_self(&self) {
+        println!("OptionDataOwner::borrow_self executed");
+    }
+}
+
+#[test]
+fn test_data_owner() {
+    let data_owner = DataOwner {
+        data: Data { value: 10 },
+    };
+
+    data_owner.data.take_ownership();
+    // data_owner.borrow_self();
+
+    let mut option_data_owner = OptionDataOwner {
+        data: Some(Data { value: 11 }),
+    };
+
+    if let Some(data) = option_data_owner.data.take() {
+        data.take_ownership();
+    }
+
+    option_data_owner.borrow_self();
+
+    if let None = option_data_owner.data {
+        println!("option_data_owner.data is none");
+    }
 }

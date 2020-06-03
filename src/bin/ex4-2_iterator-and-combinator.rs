@@ -8,12 +8,21 @@
 
 fn main() {
     let data = vec![1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
-    let itor_1 = data.iter().zip(&data[1..])
+    let iter_1 = data.iter()
+        .zip(&data[1..])
         .map(|(a, b)| a * b)
         .filter(|v| v % 3 != 0 && v % 5 != 0);
 
-    let itor_2 = itor_1.clone();
+    let iter_2 = iter_1.clone();
 
-    println!("{:?}", itor_1.collect::<Vec<i32>>());
-    println!("{:?}", itor_2.filter(|v| v % 2 == 0).count());
+    println!("{:?}", iter_1.collect::<Vec<i32>>());
+    println!("{:?}", iter_2.filter(|v| v % 2 == 0).count());
+
+    let iter_3 = data.iter()
+        .zip(data.iter().skip(1))
+        .map(|(a, b)| {a * b})
+        .filter(|v| v % 3 != 0 && v % 5 != 0)
+        .collect::<Vec<i32>>();
+
+    println!("{:?}", iter_3);
 }

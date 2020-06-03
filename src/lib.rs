@@ -9,3 +9,5 @@ mod hashmaps;
 mod traits;
 mod lifetimes;
 mod tests;
+
+pub mod mod_test;

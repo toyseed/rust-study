@@ -1,5 +1,29 @@
 #[cfg(test)]
 mod tests {
+    enum TestEnum {
+        Struct {
+            x: u8, y: u8,
+        },
+        Tuple (u8, u8),
+    }
+
+    #[test]
+    fn test_test_enum() {
+        let s = TestEnum::Struct {x: 8, y: 10};
+        let t = TestEnum::Tuple(11, 12);
+
+        // println!("s.x: {}", s.x);
+        // println!("t.0: {}", t.0);
+
+        if let TestEnum::Struct{x, y} = &s {
+            println!("s.x: {}", x);
+        }
+
+        if let TestEnum::Tuple(a, b) = &t {
+            println!("t.0: {}", a);
+        }
+    }
+
     enum IpAddrKind {
         V4,
         V6,

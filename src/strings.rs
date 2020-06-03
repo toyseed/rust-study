@@ -1,3 +1,5 @@
+use std::borrow::Borrow;
+
 #[test]
 fn test_string() {
     let s1 = String::from("hello");
@@ -27,6 +29,10 @@ fn test_string_length() {
     let h = &say_hi[0..3];
     println!("slice first: {}", h);
 
+    let hello = "Здравствуйте";
+    let answer = &hello[0..2];
+
+    println!("{:?}", answer.chars().into_iter().take(3));
 }
 
 #[test]
@@ -44,5 +50,59 @@ fn test_type_check() {
     // let floatToInt = float_str.trim().parse::<i32>().unwrap();    // err
     let float_to_float = float_str.trim().parse::<f64>().unwrap();
     println!("float_to_float {}", float_to_float);
+
+}
+
+#[test]
+fn test_concat() {
+    let s1 = String::from("tic");
+    let s2 = String::from("tac");
+    let s3 = String::from("toe");
+
+    let s = s1 + "-" + &s2 + "-" + &s3;
+
+    println!("{}", s);
+}
+
+fn substr(s: &str, from: usize, length: usize) -> String {
+    s.chars().skip(from).take(length).collect()
+}
+
+fn substr_2(s: &str, from: usize, to: usize) -> &str {
+    let mut begin: usize = 0;
+    let mut begin_byte: usize = 0;
+    let mut end: usize = 0;
+    let mut end_byte: usize = 0;
+
+    for (i, c) in s.chars().enumerate() {
+        if begin < from {
+            begin += 1;
+            begin_byte += c.len_utf8();
+
+            continue;
+        }
+
+        if end < to {
+            end += 1;
+            end_byte += c.len_utf8();
+        }
+    }
+
+    // ignore validation check
+
+    &s[begin_byte..(begin_byte + end_byte)]
+}
+
+#[test]
+fn test_substring() {
+    let s = "안a녕b하c세d요?";
+
+    for c in s.chars() {
+        println!("char: {}", c);
+    }
+
+    println!("{}", s);
+    assert_eq!("b하c세", substr(s, 3, 4));
+    assert_eq!("b하c세", substr_2(s, 3, 4));
 
 }

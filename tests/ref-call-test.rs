@@ -1,4 +1,5 @@
 use std::cell::RefCell;
+use std::rc::Rc;
 
 #[derive(Debug)]
 struct Point {
@@ -37,12 +38,15 @@ where
     max: usize,
 }
 
-impl<'a, T> LimitTracker<'a, T> where T: Messenger {
+impl<'a, T> LimitTracker<'a, T>
+where
+    T: Messenger,
+{
     pub fn new(messenger: &T, max: usize) -> LimitTracker<T> {
         LimitTracker {
             messenger,
             value: 0,
-            max
+            max,
         }
     }
 
@@ -54,16 +58,18 @@ impl<'a, T> LimitTracker<'a, T> where T: Messenger {
         if percentage_of_max >= 1.0 {
             self.messenger.send("Error: You are over your quota!");
         } else if percentage_of_max >= 0.9 {
-            self.messenger.send("Urgent warning: You've used up over 90% of your quota!");
+            self.messenger
+                .send("Urgent warning: You've used up over 90% of your quota!");
         } else if percentage_of_max >= 0.75 {
-            self.messenger.send("Warning: You've used up over 75% of your quota!");
+            self.messenger
+                .send("Warning: You've used up over 75% of your quota!");
         }
     }
 }
 
 #[test]
 fn test_refcell() {
-    struct MockMessenger{
+    struct MockMessenger {
         sent_messages: RefCell<Vec<String>>,
     }
 
@@ -98,3 +104,28 @@ fn test_refcell() {
 //     println!("{}, {}, {}, {}", &(point.x), &point.x, (&point).x, point.x);
 //     println!("{}, {}", &(point.x) == point.x, (&point).x == *&point.x);
 // }
+
+#[derive(Debug)]
+struct GroundStation {
+    radio_freq: f64,
+}
+
+#[test]
+fn test_groundstation() {
+    let base = Rc::new(RefCell::new(GroundStation { radio_freq: 87.65 }));
+    println!("base: {:?}", base);
+
+    {
+        let mut base_2 = base.borrow_mut();
+        base_2.radio_freq -= 12.34;
+        println!("base_2: {:?}", base_2);
+    }
+
+    println!("base: {:?}", base);
+
+    let mut base_3 = base.borrow_mut();
+    base_3.radio_freq += 43.21;
+
+    println!("base: {:?}", base);
+    println!("base_3: {:?}", base_3);
+}

@@ -106,3 +106,29 @@ fn test1() {
     println!("{:?}", v1);
     println!("{:?}", v2);
 }
+
+#[test]
+fn test_int_vs_int() {
+    let a: u16 = 50115;
+    let b: i16 = -15_421;
+
+    println!("a: {:032b} {}", a, a);
+    println!("b: {:016b} {}", b, b);
+}
+
+#[test]
+fn test_f32_as_u32() {
+    let a: f32 = 42.42;
+    let frankentype: u32 = unsafe {
+        std::mem::transmute(a)
+    };
+
+    println!("{:032b} {}", frankentype, frankentype);
+}
+
+fn test_impossible_addition() {
+    let (a, b) = (200, 200);
+    let c: u8 = a + b;
+
+    println!("200 + 200 = {}", c);
+}
