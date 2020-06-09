@@ -52,3 +52,18 @@ fn test_clone() {
     println!("new cubsat: {:?}", new_cubesat);
     println!("copied cubsat: {:?}", copied_cubesat);
 }
+
+#[derive(Debug)]
+struct Temp<'a> {
+    s: &'a str
+}
+
+#[test]
+fn test_str_ref() {
+    let s = String::from("hello");
+    let temp = Temp {
+        s: s.as_str(),
+    };
+
+    println!("{:?}", temp);
+}

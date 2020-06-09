@@ -70,3 +70,16 @@ fn test_traits() {
     println!("{:?}", article);
     article.say_hello();
 }
+
+fn is_returning_trait_possible() -> impl Summary {
+    NewArticle {
+        headlines: "head".to_string(),
+        location: "loc".to_string(),
+    }
+}
+
+#[test]
+fn test_call_above() {
+    let summary = is_returning_trait_possible();
+    println!("@@: {}", summary.summarize());
+}
